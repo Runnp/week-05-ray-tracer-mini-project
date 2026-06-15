@@ -33,16 +33,10 @@ pytest tests/ -v
 
 ```
 src/
-  vector.py    — Vec3 class, all 3D math
-  ray.py       — Ray(origin, direction), parametric P(t)
-  hittable.py  — Abstract Hittable interface + HitRecord
-  sphere.py    — Analytic ray-sphere intersection
-  scene.py     — Container of Hittable objects
-  camera.py    — Pinhole camera, UV → Ray mapping
-  material.py  — Material interface + FlatColor stub
-  renderer.py  — Core render loop, ray_color(), output buffer
-  main.py      — Entry point, scene definition
-
+  main.cpp     
+  ray.h       
+  vec3.h
+  
 renders/       — Output images (git-ignored)
 ```
 
