@@ -44,21 +44,20 @@ src/
   main.py      — Entry point, scene definition
 
 renders/       — Output images (git-ignored)
-tests/         — pytest unit tests per module
 ```
 
 ---
 
 ## Phases
 
-| Phase | Feature                        | Status      |
-|-------|--------------------------------|-------------|
-| 1     | Red sphere, sky background     | 🔜          |
-| 2     | Surface normals, multi-sphere  | 🔜          |
-| 3     | Lambertian diffuse             | 🔜          |
-| 4     | Metal reflections              | 🔜          |
-| 5     | Dielectric glass               | 🔜          |
-| 6     | Anti-aliasing, gamma           | 🔜          |
-| 7     | Depth of field, camera control | 🔜          |
-| 8     | BVH acceleration               | 🔜          |
-| 9     | Multithreaded rendering        | 🔜          |
+| Phase | Feature                        
+|-------|--------------------------------
+| 1     | Red sphere, sky background     
+| 2     | Surface normals, multi-sphere  
+| 3     | Lambertian diffuse             
+| 4     | Metal reflections              
+| 5     | Dielectric glass               
+| 6     | Anti-aliasing, gamma           
+| 7     | Depth of field, camera control 
+| 8     | BVH acceleration               
+| 9     | Multithreaded rendering        
