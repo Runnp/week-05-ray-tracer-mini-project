@@ -8,13 +8,13 @@ struct Vec3 {
     Vec3() : x(0), y(0), z(0) {}
     Vec3(double x, double y, double z) : x(x), y(y), z(z) {}
 
-    // Arithmetic
+
     Vec3 operator+(const Vec3& b) const { return {x+b.x, y+b.y, z+b.z}; }
     Vec3 operator-(const Vec3& b) const { return {x-b.x, y-b.y, z-b.z}; }
     Vec3 operator*(double t)      const { return {x*t,   y*t,   z*t};   }
     Vec3 operator/(double t)      const { return {x/t,   y/t,   z/t};   }
 
-    // Component-wise multiply (used for colors)
+    
     Vec3 operator*(const Vec3& b) const { return {x*b.x, y*b.y, z*b.z}; }
 
     Vec3 operator-() const { return {-x, -y, -z}; }
