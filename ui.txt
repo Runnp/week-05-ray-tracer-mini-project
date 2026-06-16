@@ -1,0 +1,2 @@
+I see it as a black GitHub UI like software with clumsy text font but with a realiable functoinality on the right side
+The function bar must have scrolling lines with parametres
