@@ -1,0 +1,2 @@
+How I see this project?
+It must be a small program that could run any 3D object with setled up environments and lighting
