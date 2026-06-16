@@ -1,0 +1,2 @@
+We must render, but we cannot render the visuals like for a week
+If the time of render exceeds, say, one hour, or two hours, the program should just give the whatever result it got
