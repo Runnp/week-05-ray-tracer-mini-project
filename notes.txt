@@ -1,0 +1,5 @@
+Notes from Ray Tracing In One Week
+https://raytracing.github.io/books/RayTracingInOneWeekend.html#overview
+
+I am going to describe is technically a path tracer, and a fairly general one.
+
