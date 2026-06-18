@@ -17,11 +17,14 @@ Vec3 rayColor(const Ray& ray) {
     double t = hitSphere(Vec3(0, 0, -1), 0.5, ray);
 
     if (t > 0.0) {
-        return Vec3(1, 0, 0);
+        Vec3 hitPoint = ray.at(t);
+        Vec3 normal   = (hitPoint - Vec3(0, 0, -1)).normalize();
+
+        return (normal + Vec3(1,1,1)) * 0.5;
     }
 
     Vec3 unitDir = ray.direction.normalize();
-    double blend = 0.5 * (unitDir.y + 1.0);  // remap y [-1,1] -> [0,1]
+    double blend = 0.5 * (unitDir.y + 1.0);
     return Vec3(1,1,1) * (1.0 - blend) + Vec3(0.5, 0.7, 1.0) * blend;
 }
 
