@@ -13,6 +13,8 @@ struct Vec3 {
     Vec3 operator-(const Vec3& b) const { return {x-b.x, y-b.y, z-b.z}; }
     Vec3 operator*(double t)      const { return {x*t,   y*t,   z*t};   }
     Vec3 operator/(double t)      const { return {x/t,   y/t,   z/t};   }
+    Vec3 operator+(double t)      const { return {x+t, y+t, z+t}; }
+
 
     
     Vec3 operator*(const Vec3& b) const { return {x*b.x, y*b.y, z*b.z}; }
