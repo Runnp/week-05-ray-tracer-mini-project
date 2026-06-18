@@ -5,18 +5,12 @@
 
 double hitSphere(const Vec3& center, double radius, const Ray& ray) {
     Vec3 oc = ray.origin - center;
-
     double a = ray.direction.dot(ray.direction);
     double b = 2.0 * oc.dot(ray.direction);
     double c = oc.dot(oc) - radius * radius;
-
     double discriminant = b*b - 4*a*c;
-
-    if (discriminant < 0) {
-        return -1.0;           
-    } else {
-        return (-b - std::sqrt(discriminant)) / (2.0 * a);  // nearest hit
-    }
+    if (discriminant < 0) return -1.0;
+    return (-b - std::sqrt(discriminant)) / (2.0 * a);
 }
 
 Vec3 rayColor(const Ray& ray) {
