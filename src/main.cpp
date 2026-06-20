@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <cstdlib>
+#include <ctime>
 #include "vec3.h"
 #include "ray.h"
 #include "sphere.h"
@@ -44,7 +46,13 @@ int main() {
     const int    imageWidth  = 400;
     const int    imageHeight = static_cast<int>(imageWidth / aspectRatio);
 
-    
+    // Rendering settings
+    const int samplesPerPixel = 100;
+    const int maxDepth = 50;
+
+    // Seed RNG
+    std::srand(static_cast<unsigned>(std::time(nullptr)));
+
     double viewportHeight = 2.0;
     double viewportWidth  = aspectRatio * viewportHeight;
     double focalLength    = 1.0;
@@ -84,23 +92,6 @@ int main() {
 
             // Average the samples
             color = color / samplesPerPixel;
-
-            int ir = static_cast<int>(255.999 * color.r());
-            int ig = static_cast<int>(255.999 * color.g());
-            int ib = static_cast<int>(255.999 * color.b());
-
-            file << ir << " " << ig << " " << ib << "\n";
-        }
-    }
-
-    for (int j = imageHeight - 1; j >= 0; j--) {
-        std::cerr << "\rScanlines remaining: " << j << " " << std::flush;
-        for (int i = 0; i < imageWidth; i++) {
-            double u = double(i) / (imageWidth  - 1);
-            double v = double(j) / (imageHeight - 1);
-
-            Ray ray(origin, lowerLeftCorner + horizontal*u + vertical*v - origin);
-            Vec3 color = rayColor(ray, scene);
 
             int ir = static_cast<int>(255.999 * color.r());
             int ig = static_cast<int>(255.999 * color.g());
