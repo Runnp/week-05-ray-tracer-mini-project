@@ -71,6 +71,31 @@ int main() {
     for (int j = imageHeight - 1; j >= 0; j--) {
         std::cerr << "\rScanlines remaining: " << j << " " << std::flush;
         for (int i = 0; i < imageWidth; i++) {
+
+            Vec3 color(0, 0, 0);
+
+            // Fire multiple rays per pixel, jittered randomly
+            for (int s = 0; s < samplesPerPixel; s++) {
+                double u = (i + randomDouble()) / (imageWidth  - 1);
+                double v = (j + randomDouble()) / (imageHeight - 1);
+                Ray ray(origin, lowerLeftCorner + horizontal*u + vertical*v - origin);
+                color = color + rayColor(ray, scene, maxDepth);
+            }
+
+            // Average the samples
+            color = color / samplesPerPixel;
+
+            int ir = static_cast<int>(255.999 * color.r());
+            int ig = static_cast<int>(255.999 * color.g());
+            int ib = static_cast<int>(255.999 * color.b());
+
+            file << ir << " " << ig << " " << ib << "\n";
+        }
+    }
+
+    for (int j = imageHeight - 1; j >= 0; j--) {
+        std::cerr << "\rScanlines remaining: " << j << " " << std::flush;
+        for (int i = 0; i < imageWidth; i++) {
             double u = double(i) / (imageWidth  - 1);
             double v = double(j) / (imageHeight - 1);
 
