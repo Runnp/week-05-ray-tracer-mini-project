@@ -34,3 +34,20 @@ struct Vec3 {
 };
 
 inline Vec3 operator*(double t, const Vec3& v) { return v * t; }
+
+#include <cstdlib>
+
+inline double randomDouble() {
+    return std::rand() / (RAND_MAX + 1.0);
+}
+
+inline Vec3 randomVec3() {
+    return Vec3(randomDouble(), randomDouble(), randomDouble());
+}
+
+inline Vec3 randomInUnitSphere() {
+    while (true) {
+        Vec3 p = randomVec3() * 2.0 - Vec3(1,1,1);
+        if (p.lengthSq() < 1.0) return p;
+    }
+}
