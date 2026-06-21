@@ -5,7 +5,6 @@
 #include <ctime>
 #include "vec3.h"
 #include "ray.h"
-#include "hitrecord.h"
 #include "material.h"
 #include "sphere.h"
 

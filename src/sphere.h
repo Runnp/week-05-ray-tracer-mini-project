@@ -3,7 +3,6 @@
 #include "vec3.h"
 #include "ray.h"
 #include "material.h"
-#include "hitrecord.h"
 
 struct Sphere {
     Vec3                      center;

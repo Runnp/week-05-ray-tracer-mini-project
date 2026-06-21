@@ -1,7 +1,14 @@
 #pragma once
+#include <memory>
 #include "vec3.h"
 #include "ray.h"
-#include "hitrecord.h"
+
+struct HitRecord {
+    Vec3                       point;
+    Vec3                       normal;
+    double                     t;
+    std::shared_ptr<class Material>  material;
+};
 
 struct Material {
     virtual ~Material() = default;
