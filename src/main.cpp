@@ -80,7 +80,21 @@ int main() {
     scene.push_back(Sphere(Vec3( 1.0,    0.0, -1.0),  0.5,  rightMaterial));
     scene.push_back(Sphere(Vec3( 0.0, -100.5, -1.0), 100.0, groundMaterial));
 
-    
+    // Average the samples
+            color = color / samplesPerPixel;
+
+            // Gamma correction — sqrt approximates gamma 2
+            double r = std::sqrt(color.r());
+            double g = std::sqrt(color.g());
+            double b = std::sqrt(color.b());
+
+            int ir = static_cast<int>(255.999 * r);
+            int ig = static_cast<int>(255.999 * g);
+            int ib = static_cast<int>(255.999 * b);
+
+            file << ir << " " << ig << " " << ib << "\n";
+
+            
     std::vector<Sphere> scene;
     scene.push_back(Sphere(Vec3( 0.0,    0.0, -1.0),  0.5));   // center sphere
     scene.push_back(Sphere(Vec3(-1.0,    0.0, -1.0),  0.5));   // left sphere
