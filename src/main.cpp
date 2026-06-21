@@ -43,23 +43,6 @@ Vec3 rayColor(const Ray& ray, const std::vector<Sphere>& scene, int depth) {
     return Vec3(1,1,1) * (1.0 - blend) + Vec3(0.5, 0.7, 1.0) * blend;
 }
 
-Vec3 rayColor(const Ray& ray, const std::vector<Sphere>& scene, int depth) {
-    if (depth <= 0) return Vec3(0, 0, 0);
-
-    HitRecord rec;
-
-    if (hitScene(scene, ray, 0.001, 1e9, rec)) {
-        Vec3 target = rec.point + rec.normal + randomInUnitSphere();
-        Ray  scattered(rec.point, target - rec.point);
-
-        return rayColor(scattered, scene, depth - 1) * 0.5;
-    }
-
-    Vec3 unitDir = ray.direction.normalize();
-    double blend = 0.5 * (unitDir.y + 1.0);
-    return Vec3(1,1,1) * (1.0 - blend) + Vec3(0.5, 0.7, 1.0) * blend;
-}
-
 int main() {
 
     const double aspectRatio = 16.0 / 9.0;
