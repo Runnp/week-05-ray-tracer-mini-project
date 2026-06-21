@@ -1,8 +1,7 @@
 #pragma once
 #include "vec3.h"
 #include "ray.h"
-
-struct HitRecord;
+#include "hitrecord.h"
 
 struct Material {
     virtual ~Material() = default;

@@ -5,6 +5,8 @@
 #include <ctime>
 #include "vec3.h"
 #include "ray.h"
+#include "hitrecord.h"
+#include "material.h"
 #include "sphere.h"
 
 bool hitScene(const std::vector<Sphere>& scene, const Ray& ray,
@@ -80,28 +82,6 @@ int main() {
     scene.push_back(Sphere(Vec3( 1.0,    0.0, -1.0),  0.5,  rightMaterial));
     scene.push_back(Sphere(Vec3( 0.0, -100.5, -1.0), 100.0, groundMaterial));
 
-    // Average the samples
-            color = color / samplesPerPixel;
-
-            // Gamma correction — sqrt approximates gamma 2
-            double r = std::sqrt(color.r());
-            double g = std::sqrt(color.g());
-            double b = std::sqrt(color.b());
-
-            int ir = static_cast<int>(255.999 * r);
-            int ig = static_cast<int>(255.999 * g);
-            int ib = static_cast<int>(255.999 * b);
-
-            file << ir << " " << ig << " " << ib << "\n";
-
-            
-    std::vector<Sphere> scene;
-    scene.push_back(Sphere(Vec3( 0.0,    0.0, -1.0),  0.5));   // center sphere
-    scene.push_back(Sphere(Vec3(-1.0,    0.0, -1.0),  0.5));   // left sphere
-    scene.push_back(Sphere(Vec3( 1.0,    0.0, -1.0),  0.5));   // right sphere
-    scene.push_back(Sphere(Vec3( 0.0, -100.5, -1.0), 100.0));  // ground
-
-    
     std::ofstream file("renders/image.ppm");
     file << "P3\n" << imageWidth << " " << imageHeight << "\n255\n";
 
@@ -122,9 +102,14 @@ int main() {
             // Average the samples
             color = color / samplesPerPixel;
 
-            int ir = static_cast<int>(255.999 * color.r());
-            int ig = static_cast<int>(255.999 * color.g());
-            int ib = static_cast<int>(255.999 * color.b());
+            // Gamma correction — sqrt approximates gamma 2
+            double r = std::sqrt(color.r());
+            double g = std::sqrt(color.g());
+            double b = std::sqrt(color.b());
+
+            int ir = static_cast<int>(255.999 * r);
+            int ig = static_cast<int>(255.999 * g);
+            int ib = static_cast<int>(255.999 * b);
 
             file << ir << " " << ig << " " << ib << "\n";
         }

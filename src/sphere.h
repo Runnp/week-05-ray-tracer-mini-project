@@ -3,13 +3,7 @@
 #include "vec3.h"
 #include "ray.h"
 #include "material.h"
-
-struct HitRecord {
-    Vec3                       point;
-    Vec3                       normal;
-    double                     t;
-    std::shared_ptr<Material>  material;
-};
+#include "hitrecord.h"
 
 struct Sphere {
     Vec3                      center;
