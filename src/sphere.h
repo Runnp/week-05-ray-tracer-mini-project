@@ -12,11 +12,12 @@ struct HitRecord {
 };
 
 struct Sphere {
-    Vec3   center;
-    double radius;
+    Vec3                      center;
+    double                    radius;
+    std::shared_ptr<Material> material;  // NEW
 
-    Sphere(Vec3 center, double radius)
-        : center(center), radius(radius) {}
+    Sphere(Vec3 center, double radius, std::shared_ptr<Material> material)
+        : center(center), radius(radius), material(material) {}
 
     bool hit(const Ray& ray, double tMin, double tMax, HitRecord& rec) const {
         Vec3 oc = ray.origin - center;
@@ -28,16 +29,16 @@ struct Sphere {
         if (discriminant < 0) return false;
 
         double sqrtD = std::sqrt(discriminant);
-
-        double root = (-b - sqrtD) / (2.0 * a);
+        double root  = (-b - sqrtD) / (2.0 * a);
         if (root < tMin || root > tMax) {
             root = (-b + sqrtD) / (2.0 * a);
             if (root < tMin || root > tMax) return false;
         }
 
-        rec.t      = root;
-        rec.point  = ray.at(root);
-        rec.normal = (rec.point - center).normalize();
+        rec.t        = root;
+        rec.point    = ray.at(root);
+        rec.normal   = (rec.point - center).normalize();
+        rec.material = material;
         return true;
     }
 };
