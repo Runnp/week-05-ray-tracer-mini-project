@@ -28,3 +28,22 @@ struct Lambertian : public Material {
         return true;
     }
 };
+
+struct Metal : public Material {
+    Vec3   albedo;
+    double fuzz;
+
+    Metal(const Vec3& albedo, double fuzz)
+        : albedo(albedo), fuzz(fuzz < 1 ? fuzz : 1) {}
+
+    bool scatter(const Ray& rayIn, const HitRecord& rec,
+                 Vec3& attenuation, Ray& scattered) const override {
+        Vec3 unitIn    = rayIn.direction.normalize();
+        Vec3 reflected = unitIn - rec.normal * 2.0 * unitIn.dot(rec.normal);
+
+        scattered   = Ray(rec.point, reflected + randomInUnitSphere() * fuzz);
+        attenuation = albedo;
+
+        return scattered.direction.dot(rec.normal) > 0;
+    }
+};
