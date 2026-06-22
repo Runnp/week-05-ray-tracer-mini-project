@@ -27,6 +27,26 @@ Vec3 rayColor(const Ray& ray, const std::vector<Sphere>& scene, int depth) {
     if (depth <= 0) return Vec3(0, 0, 0);
 
     HitRecord rec;
+    if (hitScene(scene, ray, 0.001, 1e9, rec)) {
+        Ray  scattered(ray.origin, ray.direction);
+        Vec3 attenuation;
+
+        if (rec.material->scatter(ray, rec, attenuation, scattered)) {
+            // Multiply color by attenuation at each bounce
+            return attenuation * rayColor(scattered, scene, depth - 1);
+        }
+        return Vec3(0, 0, 0);
+    }
+
+    Vec3 unitDir = ray.direction.normalize();
+    double blend = 0.5 * (unitDir.y + 1.0);
+    return Vec3(1,1,1) * (1.0 - blend) + Vec3(0.5, 0.7, 1.0) * blend;
+}
+
+Vec3 rayColor(const Ray& ray, const std::vector<Sphere>& scene, int depth) {
+    if (depth <= 0) return Vec3(0, 0, 0);
+
+    HitRecord rec;
 
     if (hitScene(scene, ray, 0.001, 1e9, rec)) {
         Vec3 target = rec.point + rec.normal + randomInUnitSphere();

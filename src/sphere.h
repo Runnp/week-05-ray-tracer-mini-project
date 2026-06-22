@@ -14,7 +14,7 @@ struct HitRecord {
 struct Sphere {
     Vec3                      center;
     double                    radius;
-    std::shared_ptr<Material> material;  // NEW
+    std::shared_ptr<Material> material;
 
     Sphere(Vec3 center, double radius, std::shared_ptr<Material> material)
         : center(center), radius(radius), material(material) {}
