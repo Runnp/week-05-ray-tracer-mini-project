@@ -90,7 +90,6 @@ int main() {
 
             color = color / samplesPerPixel;
 
-            // Gamma correction
             double r = std::sqrt(color.r());
             double g = std::sqrt(color.g());
             double b = std::sqrt(color.b());
