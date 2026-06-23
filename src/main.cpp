@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <cstdlib>
-#include <ctime>
+#include <memory>
+#include <cmath>
 #include "vec3.h"
 #include "ray.h"
 #include "material.h"
@@ -11,13 +11,13 @@
 bool hitScene(const std::vector<Sphere>& scene, const Ray& ray,
               double tMin, double tMax, HitRecord& rec) {
     HitRecord temp;
-    bool hitAnything  = false;
+    bool   hitAnything  = false;
     double closestSoFar = tMax;
 
     for (const Sphere& sphere : scene) {
         if (sphere.hit(ray, tMin, closestSoFar, temp)) {
             hitAnything   = true;
-            closestSoFar  = temp.t; 
+            closestSoFar  = temp.t;
             rec           = temp;
         }
     }
@@ -31,9 +31,7 @@ Vec3 rayColor(const Ray& ray, const std::vector<Sphere>& scene, int depth) {
     if (hitScene(scene, ray, 0.001, 1e9, rec)) {
         Ray  scattered(ray.origin, ray.direction);
         Vec3 attenuation;
-
         if (rec.material->scatter(ray, rec, attenuation, scattered)) {
-            // Multiply color by attenuation at each bounce
             return attenuation * rayColor(scattered, scene, depth - 1);
         }
         return Vec3(0, 0, 0);
@@ -45,21 +43,13 @@ Vec3 rayColor(const Ray& ray, const std::vector<Sphere>& scene, int depth) {
 }
 
 int main() {
-
     const double aspectRatio = 16.0 / 9.0;
     const int    imageWidth  = 400;
     const int    imageHeight = static_cast<int>(imageWidth / aspectRatio);
 
-    // Rendering settings
-    const int samplesPerPixel = 100;
-    const int maxDepth = 50;
-
-    // Seed RNG
-    std::srand(static_cast<unsigned>(std::time(nullptr)));
-
-    double viewportHeight = 2.0;
-    double viewportWidth  = aspectRatio * viewportHeight;
-    double focalLength    = 1.0;
+    double viewportHeight    = 2.0;
+    double viewportWidth     = aspectRatio * viewportHeight;
+    double focalLength       = 1.0;
 
     Vec3 origin(0, 0, 0);
     Vec3 horizontal(viewportWidth, 0, 0);
@@ -69,11 +59,10 @@ int main() {
         - vertical   / 2
         - Vec3(0, 0, focalLength);
 
-
-    auto groundMaterial  = std::make_shared<Lambertian>(Vec3(0.8, 0.8, 0.0));
-    auto centerMaterial  = std::make_shared<Lambertian>(Vec3(0.7, 0.3, 0.3));
-    auto leftMaterial    = std::make_shared<Metal>(Vec3(0.8, 0.8, 0.8), 0.3);
-    auto rightMaterial   = std::make_shared<Metal>(Vec3(0.8, 0.6, 0.2), 1.0);
+    auto groundMaterial = std::make_shared<Lambertian>(Vec3(0.8, 0.8, 0.0));
+    auto centerMaterial = std::make_shared<Lambertian>(Vec3(0.7, 0.3, 0.3));
+    auto leftMaterial   = std::make_shared<Metal>(Vec3(0.8, 0.8, 0.8), 0.3);
+    auto rightMaterial  = std::make_shared<Metal>(Vec3(0.8, 0.6, 0.2), 1.0);
 
     std::vector<Sphere> scene;
     scene.push_back(Sphere(Vec3( 0.0,    0.0, -1.0),  0.5,  centerMaterial));
@@ -81,16 +70,17 @@ int main() {
     scene.push_back(Sphere(Vec3( 1.0,    0.0, -1.0),  0.5,  rightMaterial));
     scene.push_back(Sphere(Vec3( 0.0, -100.5, -1.0), 100.0, groundMaterial));
 
+    const int samplesPerPixel = 50;
+    const int maxDepth        = 50;
+
     std::ofstream file("renders/image.ppm");
     file << "P3\n" << imageWidth << " " << imageHeight << "\n255\n";
 
     for (int j = imageHeight - 1; j >= 0; j--) {
         std::cerr << "\rScanlines remaining: " << j << " " << std::flush;
         for (int i = 0; i < imageWidth; i++) {
-
             Vec3 color(0, 0, 0);
 
-            // Fire multiple rays per pixel, jittered randomly
             for (int s = 0; s < samplesPerPixel; s++) {
                 double u = (i + randomDouble()) / (imageWidth  - 1);
                 double v = (j + randomDouble()) / (imageHeight - 1);
@@ -98,10 +88,9 @@ int main() {
                 color = color + rayColor(ray, scene, maxDepth);
             }
 
-            // Average the samples
             color = color / samplesPerPixel;
 
-            // Gamma correction — sqrt approximates gamma 2
+            // Gamma correction
             double r = std::sqrt(color.r());
             double g = std::sqrt(color.g());
             double b = std::sqrt(color.b());
