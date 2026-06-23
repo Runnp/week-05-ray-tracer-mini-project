@@ -1,14 +1,8 @@
 #pragma once
-#include <memory>
 #include "vec3.h"
 #include "ray.h"
 
-struct HitRecord {
-    Vec3                       point;
-    Vec3                       normal;
-    double                     t;
-    std::shared_ptr<class Material>  material;
-};
+struct HitRecord;
 
 struct Material {
     virtual ~Material() = default;
@@ -29,8 +23,8 @@ struct Lambertian : public Material {
     bool scatter(const Ray&, const HitRecord& rec,
                  Vec3& attenuation, Ray& scattered) const override {
         Vec3 scatterDir = rec.normal + randomInUnitSphere().normalize();
-        scattered    = Ray(rec.point, scatterDir);
-        attenuation  = albedo;
+        scattered   = Ray(rec.point, scatterDir);
+        attenuation = albedo;
         return true;
     }
 };
@@ -46,10 +40,8 @@ struct Metal : public Material {
                  Vec3& attenuation, Ray& scattered) const override {
         Vec3 unitIn    = rayIn.direction.normalize();
         Vec3 reflected = unitIn - rec.normal * 2.0 * unitIn.dot(rec.normal);
-
         scattered   = Ray(rec.point, reflected + randomInUnitSphere() * fuzz);
         attenuation = albedo;
-
         return scattered.direction.dot(rec.normal) > 0;
     }
 };
