@@ -1,0 +1,14 @@
+Performance Improvements
+
+- Multithreading
+- BVH
+- SIMD
+- Tile rendering
+- Progressive rendering
+- Better random sampling
+
+Benchmark Targets
+
+640x480  < 2 sec
+1280x720 < 10 sec
+1920x1080 < 30 sec
