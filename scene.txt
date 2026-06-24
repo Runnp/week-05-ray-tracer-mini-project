@@ -1,0 +1,17 @@
+Scene Ideas
+
+Scene 1:
+- Three spheres
+
+Scene 2:
+- Metallic sphere
+- Glass sphere
+
+Scene 3:
+- Cornell Box
+
+Scene 4:
+- Reflective room
+
+Scene 5:
+- Planetary system
