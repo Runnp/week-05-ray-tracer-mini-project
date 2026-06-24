@@ -1,0 +1,12 @@
+Ray Tracer Roadmap
+
+[ ] Anti-aliasing
+[ ] Shadows
+[ ] Reflections
+[ ] Refractions
+[ ] Multiple materials
+[ ] Skybox
+[ ] Texture mapping
+[ ] BVH acceleration structure
+[ ] OBJ model loading
+[ ] Depth of field
