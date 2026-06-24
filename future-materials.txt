@@ -1,0 +1,13 @@
+Future Material Types
+
+1. Lambertian
+2. Metal
+3. Dielectric (Glass)
+4. Emissive
+5. Checker Pattern
+6. Image Texture
+7. Procedural Noise
+
+Notes:
+- Support roughness parameter.
+- Support material inheritance.
