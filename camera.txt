@@ -1,0 +1,11 @@
+Camera Ideas
+
+Current:
+- Basic camera
+
+Future:
+- FOV control
+- Depth of field
+- Motion blur
+- Camera animation
+- Aspect ratio presets
