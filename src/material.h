@@ -45,3 +45,35 @@ struct Metal : public Material {
         return scattered.direction.dot(rec.normal) > 0;
     }
 };
+
+struct Dielectric : public Material {
+    double ior;
+
+    Dielectric(double ior) : ior(ior) {}
+
+    bool scatter(const Ray& rayIn, const HitRecord& rec,
+                 Vec3& attenuation, Ray& scattered) const override {
+       
+        attenuation = Vec3(1.0, 1.0, 1.0);
+
+        double refractionRatio = rec.frontFace ? (1.0 / ior) : ior;
+
+        Vec3 unitDir = rayIn.direction.normalize();
+
+        double cosTheta = std::min(-unitDir.dot(rec.normal), 1.0);
+        double sinTheta = std::sqrt(1.0 - cosTheta * cosTheta);
+
+        bool cannotRefract = refractionRatio * sinTheta > 1.0;
+
+        Vec3 direction;
+        if (cannotRefract || schlick(cosTheta, refractionRatio) > randomDouble()) {
+        
+            direction = reflect(unitDir, rec.normal);
+        } else {
+         
+            direction = refract(unitDir, rec.normal, refractionRatio);
+        }
+
+        scattered = Ray(rec.point, direction);
+        return true;
+    }
