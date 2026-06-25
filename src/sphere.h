@@ -8,6 +8,7 @@ struct HitRecord {
     Vec3                      point;
     Vec3                      normal;
     double                    t;
+    bool                      frontFace;  // NEW
     std::shared_ptr<Material> material;
 };
 
@@ -35,10 +36,14 @@ struct Sphere {
             if (root < tMin || root > tMax) return false;
         }
 
-        rec.t        = root;
-        rec.point    = ray.at(root);
-        rec.normal   = (rec.point - center).normalize();
-        rec.material = material;
+        rec.t      = root;
+        rec.point  = ray.at(root);
+
+        Vec3 outwardNormal = (rec.point - center).normalize();
+        rec.frontFace      = ray.direction.dot(outwardNormal) < 0;
+        rec.normal         = rec.frontFace ? outwardNormal : -outwardNormal;
+        rec.material       = material;
+
         return true;
     }
 };
