@@ -60,13 +60,14 @@ int main() {
         - Vec3(0, 0, focalLength);
 
     auto groundMaterial = std::make_shared<Lambertian>(Vec3(0.8, 0.8, 0.0));
-    auto centerMaterial = std::make_shared<Lambertian>(Vec3(0.7, 0.3, 0.3));
-    auto leftMaterial   = std::make_shared<Metal>(Vec3(0.8, 0.8, 0.8), 0.3);
-    auto rightMaterial  = std::make_shared<Metal>(Vec3(0.8, 0.6, 0.2), 1.0);
+    auto centerMaterial = std::make_shared<Lambertian>(Vec3(0.1, 0.2, 0.5));
+    auto leftMaterial   = std::make_shared<Dielectric>(1.5);
+    auto rightMaterial  = std::make_shared<Metal>(Vec3(0.8, 0.6, 0.2), 0.0);
 
     std::vector<Sphere> scene;
     scene.push_back(Sphere(Vec3( 0.0,    0.0, -1.0),  0.5,  centerMaterial));
     scene.push_back(Sphere(Vec3(-1.0,    0.0, -1.0),  0.5,  leftMaterial));
+    scene.push_back(Sphere(Vec3(-1.0,    0.0, -1.0), -0.4,  leftMaterial));  // hollow
     scene.push_back(Sphere(Vec3( 1.0,    0.0, -1.0),  0.5,  rightMaterial));
     scene.push_back(Sphere(Vec3( 0.0, -100.5, -1.0), 100.0, groundMaterial));
 
