@@ -77,3 +77,22 @@ struct Dielectric : public Material {
         scattered = Ray(rec.point, direction);
         return true;
     }
+
+private:
+    static Vec3 reflect(const Vec3& v, const Vec3& n) {
+        return v - n * 2.0 * v.dot(n);
+    }
+
+    static Vec3 refract(const Vec3& v, const Vec3& n, double ratio) {
+        double cosTheta  = std::min(-v.dot(n), 1.0);
+        Vec3 rOutPerp    = (v + n * cosTheta) * ratio;
+        Vec3 rOutParallel = n * -std::sqrt(std::abs(1.0 - rOutPerp.lengthSq()));
+        return rOutPerp + rOutParallel;
+    }
+
+    static double schlick(double cosTheta, double ratio) {
+        double r0 = (1.0 - ratio) / (1.0 + ratio);
+        r0 = r0 * r0;
+        return r0 + (1.0 - r0) * std::pow(1.0 - cosTheta, 5.0);
+    }
+};
