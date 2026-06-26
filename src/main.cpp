@@ -49,6 +49,14 @@ int main() {
     const int    imageWidth  = 400;
     const int    imageHeight = static_cast<int>(imageWidth / aspectRatio);
 
+        Camera camera(
+        Vec3(3, 2, 2),    // lookFrom — positioned above and to the side
+        Vec3(0, 0, -1),   // lookAt   — looking at the center sphere
+        Vec3(0, 1, 0),    // vup      — world up
+        45.0,             // vfov     — field of view in degrees
+        aspectRatio
+    );
+
     auto groundMaterial = std::make_shared<Lambertian>(Vec3(0.8, 0.8, 0.0));
     auto centerMaterial = std::make_shared<Lambertian>(Vec3(0.1, 0.2, 0.5));
     auto leftMaterial   = std::make_shared<Dielectric>(1.5);
