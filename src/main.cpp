@@ -7,6 +7,8 @@
 #include "ray.h"
 #include "material.h"
 #include "sphere.h"
+#include "camera.h"
+
 
 bool hitScene(const std::vector<Sphere>& scene, const Ray& ray,
               double tMin, double tMax, HitRecord& rec) {
