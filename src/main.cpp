@@ -83,7 +83,7 @@ int main() {
             for (int s = 0; s < samplesPerPixel; s++) {
                 double u = (i + randomDouble()) / (imageWidth  - 1);
                 double v = (j + randomDouble()) / (imageHeight - 1);
-                Ray ray(origin, lowerLeftCorner + horizontal*u + vertical*v - origin);
+                Ray ray = camera.getRay(u, v);
                 color = color + rayColor(ray, scene, maxDepth);
             }
 
