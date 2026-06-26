@@ -42,3 +42,11 @@ inline Vec3 randomInUnitSphere() {
         if (p.lengthSq() < 1.0) return p;
     }
 }
+
+Vec3 cross(const Vec3& b) const {
+    return {
+        y*b.z - z*b.y,
+        z*b.x - x*b.z,
+        x*b.y - y*b.x
+    };
+}
