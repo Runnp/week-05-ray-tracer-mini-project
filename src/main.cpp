@@ -49,18 +49,6 @@ int main() {
     const int    imageWidth  = 400;
     const int    imageHeight = static_cast<int>(imageWidth / aspectRatio);
 
-    double viewportHeight    = 2.0;
-    double viewportWidth     = aspectRatio * viewportHeight;
-    double focalLength       = 1.0;
-
-    Vec3 origin(0, 0, 0);
-    Vec3 horizontal(viewportWidth, 0, 0);
-    Vec3 vertical(0, viewportHeight, 0);
-    Vec3 lowerLeftCorner = origin
-        - horizontal / 2
-        - vertical   / 2
-        - Vec3(0, 0, focalLength);
-
     auto groundMaterial = std::make_shared<Lambertian>(Vec3(0.8, 0.8, 0.0));
     auto centerMaterial = std::make_shared<Lambertian>(Vec3(0.1, 0.2, 0.5));
     auto leftMaterial   = std::make_shared<Dielectric>(1.5);
