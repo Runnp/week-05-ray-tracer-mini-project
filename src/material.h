@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 #include "vec3.h"
 #include "ray.h"
 
@@ -53,13 +54,11 @@ struct Dielectric : public Material {
 
     bool scatter(const Ray& rayIn, const HitRecord& rec,
                  Vec3& attenuation, Ray& scattered) const override {
-       
         attenuation = Vec3(1.0, 1.0, 1.0);
 
         double refractionRatio = rec.frontFace ? (1.0 / ior) : ior;
 
-        Vec3 unitDir = rayIn.direction.normalize();
-
+        Vec3 unitDir  = rayIn.direction.normalize();
         double cosTheta = std::min(-unitDir.dot(rec.normal), 1.0);
         double sinTheta = std::sqrt(1.0 - cosTheta * cosTheta);
 
@@ -67,10 +66,8 @@ struct Dielectric : public Material {
 
         Vec3 direction;
         if (cannotRefract || schlick(cosTheta, refractionRatio) > randomDouble()) {
-        
             direction = reflect(unitDir, rec.normal);
         } else {
-         
             direction = refract(unitDir, rec.normal, refractionRatio);
         }
 
@@ -84,8 +81,8 @@ private:
     }
 
     static Vec3 refract(const Vec3& v, const Vec3& n, double ratio) {
-        double cosTheta  = std::min(-v.dot(n), 1.0);
-        Vec3 rOutPerp    = (v + n * cosTheta) * ratio;
+        double cosTheta   = std::min(-v.dot(n), 1.0);
+        Vec3 rOutPerp     = (v + n * cosTheta) * ratio;
         Vec3 rOutParallel = n * -std::sqrt(std::abs(1.0 - rOutPerp.lengthSq()));
         return rOutPerp + rOutParallel;
     }
