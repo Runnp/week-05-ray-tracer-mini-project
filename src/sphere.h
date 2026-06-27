@@ -8,7 +8,7 @@ struct HitRecord {
     Vec3                      point;
     Vec3                      normal;
     double                    t;
-    bool                      frontFace;  // NEW
+    bool                      frontFace;
     std::shared_ptr<Material> material;
 };
 
@@ -21,10 +21,10 @@ struct Sphere {
         : center(center), radius(radius), material(material) {}
 
     bool hit(const Ray& ray, double tMin, double tMax, HitRecord& rec) const {
-        Vec3 oc = ray.origin - center;
-        double a = ray.direction.dot(ray.direction);
-        double b = 2.0 * oc.dot(ray.direction);
-        double c = oc.dot(oc) - radius * radius;
+        Vec3   oc = ray.origin - center;
+        double a  = ray.direction.dot(ray.direction);
+        double b  = 2.0 * oc.dot(ray.direction);
+        double c  = oc.dot(oc) - radius * radius;
         double discriminant = b*b - 4*a*c;
 
         if (discriminant < 0) return false;
@@ -43,7 +43,6 @@ struct Sphere {
         rec.frontFace      = ray.direction.dot(outwardNormal) < 0;
         rec.normal         = rec.frontFace ? outwardNormal : -outwardNormal;
         rec.material       = material;
-
         return true;
     }
 };
