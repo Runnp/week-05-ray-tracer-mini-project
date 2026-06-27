@@ -16,10 +16,17 @@ struct Vec3 {
     Vec3 operator+(double t)      const { return {x+t,   y+t,   z+t};   }
     Vec3 operator-()              const { return {-x,    -y,    -z};     }
 
-    double dot(const Vec3& b) const { return x*b.x + y*b.y + z*b.z; }
-    double lengthSq()         const { return x*x + y*y + z*z; }
-    double length()           const { return std::sqrt(lengthSq()); }
-    Vec3   normalize()        const { return *this / length(); }
+    double dot(const Vec3& b)  const { return x*b.x + y*b.y + z*b.z; }
+    double lengthSq()          const { return x*x + y*y + z*z; }
+    double length()            const { return std::sqrt(lengthSq()); }
+    Vec3   normalize()         const { return *this / length(); }
+    Vec3   cross(const Vec3& b) const {
+        return {
+            y*b.z - z*b.y,
+            z*b.x - x*b.z,
+            x*b.y - y*b.x
+        };
+    }
 
     double r() const { return x; }
     double g() const { return y; }
@@ -41,12 +48,4 @@ inline Vec3 randomInUnitSphere() {
         Vec3 p = randomVec3() * 2.0 - Vec3(1,1,1);
         if (p.lengthSq() < 1.0) return p;
     }
-}
-
-Vec3 cross(const Vec3& b) const {
-    return {
-        y*b.z - z*b.y,
-        z*b.x - x*b.z,
-        x*b.y - y*b.x
-    };
 }
