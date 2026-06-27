@@ -9,7 +9,6 @@
 #include "sphere.h"
 #include "camera.h"
 
-
 bool hitScene(const std::vector<Sphere>& scene, const Ray& ray,
               double tMin, double tMax, HitRecord& rec) {
     HitRecord temp;
@@ -18,9 +17,9 @@ bool hitScene(const std::vector<Sphere>& scene, const Ray& ray,
 
     for (const Sphere& sphere : scene) {
         if (sphere.hit(ray, tMin, closestSoFar, temp)) {
-            hitAnything   = true;
-            closestSoFar  = temp.t;
-            rec           = temp;
+            hitAnything  = true;
+            closestSoFar = temp.t;
+            rec          = temp;
         }
     }
     return hitAnything;
@@ -39,8 +38,8 @@ Vec3 rayColor(const Ray& ray, const std::vector<Sphere>& scene, int depth) {
         return Vec3(0, 0, 0);
     }
 
-    Vec3 unitDir = ray.direction.normalize();
-    double blend = 0.5 * (unitDir.y + 1.0);
+    Vec3   unitDir = ray.direction.normalize();
+    double blend   = 0.5 * (unitDir.y + 1.0);
     return Vec3(1,1,1) * (1.0 - blend) + Vec3(0.5, 0.7, 1.0) * blend;
 }
 
@@ -49,14 +48,7 @@ int main() {
     const int    imageWidth  = 400;
     const int    imageHeight = static_cast<int>(imageWidth / aspectRatio);
 
-        Camera camera(
-        Vec3(3, 2, 2),    // lookFrom — positioned above and to the side
-        Vec3(0, 0, -1),   // lookAt   — looking at the center sphere
-        Vec3(0, 1, 0),    // vup      — world up
-        45.0,             // vfov     — field of view in degrees
-        aspectRatio
-    );
-
+    // Scene
     auto groundMaterial = std::make_shared<Lambertian>(Vec3(0.8, 0.8, 0.0));
     auto centerMaterial = std::make_shared<Lambertian>(Vec3(0.1, 0.2, 0.5));
     auto leftMaterial   = std::make_shared<Dielectric>(1.5);
@@ -65,9 +57,18 @@ int main() {
     std::vector<Sphere> scene;
     scene.push_back(Sphere(Vec3( 0.0,    0.0, -1.0),  0.5,  centerMaterial));
     scene.push_back(Sphere(Vec3(-1.0,    0.0, -1.0),  0.5,  leftMaterial));
-    scene.push_back(Sphere(Vec3(-1.0,    0.0, -1.0), -0.4,  leftMaterial));  // hollow
+    scene.push_back(Sphere(Vec3(-1.0,    0.0, -1.0), -0.4,  leftMaterial));
     scene.push_back(Sphere(Vec3( 1.0,    0.0, -1.0),  0.5,  rightMaterial));
     scene.push_back(Sphere(Vec3( 0.0, -100.5, -1.0), 100.0, groundMaterial));
+
+    // Camera
+    Camera camera(
+        Vec3(3, 2, 2),
+        Vec3(0, 0, -1),
+        Vec3(0, 1, 0),
+        45.0,
+        aspectRatio
+    );
 
     const int samplesPerPixel = 50;
     const int maxDepth        = 50;
@@ -83,8 +84,8 @@ int main() {
             for (int s = 0; s < samplesPerPixel; s++) {
                 double u = (i + randomDouble()) / (imageWidth  - 1);
                 double v = (j + randomDouble()) / (imageHeight - 1);
-                Ray ray = camera.getRay(u, v);
-                color = color + rayColor(ray, scene, maxDepth);
+                Ray ray  = camera.getRay(u, v);
+                color    = color + rayColor(ray, scene, maxDepth);
             }
 
             color = color / samplesPerPixel;

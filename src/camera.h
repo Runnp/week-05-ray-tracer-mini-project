@@ -18,21 +18,21 @@ struct Camera {
     Camera(
         Vec3   lookFrom,
         Vec3   lookAt,
-        Vec3   vup,       
-        double vfov,      
+        Vec3   vup,
+        double vfov,
         double aspectRatio
     ) {
         double theta          = degreesToRadians(vfov);
         double viewportHeight = 2.0 * std::tan(theta / 2.0);
         double viewportWidth  = aspectRatio * viewportHeight;
 
-        Vec3 forward = (lookFrom - lookAt).normalize();   
-        Vec3 right   = vup.cross(forward).normalize();    
-        Vec3 up      = forward.cross(right);              
+        Vec3 forward = (lookFrom - lookAt).normalize();
+        Vec3 right   = vup.cross(forward).normalize();
+        Vec3 up      = forward.cross(right);
 
         origin          = lookFrom;
-        horizontal      = right   * viewportWidth;
-        vertical        = up      * viewportHeight;
+        horizontal      = right * viewportWidth;
+        vertical        = up    * viewportHeight;
         lowerLeftCorner = origin
             - horizontal / 2
             - vertical   / 2
